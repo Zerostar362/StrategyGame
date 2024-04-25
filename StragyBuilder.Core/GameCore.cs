@@ -42,7 +42,7 @@ namespace StragyBuilder.Core
 
         public void Update()
         {
-            
+
         }
     }
 }

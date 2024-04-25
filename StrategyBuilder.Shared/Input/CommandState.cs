@@ -1,10 +1,5 @@
 ﻿using StrategyBuilder.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace StragyBuilder.Shared.Input
 {
@@ -17,7 +12,7 @@ namespace StragyBuilder.Shared.Input
         private CommandState? _previousState;
 
 
-        public CommandState(List<ICommand> commands, string scope,CommandState? previousState = null, int depth = 0)
+        public CommandState(List<ICommand> commands, string scope, CommandState? previousState = null, int depth = 0)
         {
             _depth = depth;
             _commands = commands;
@@ -71,6 +66,32 @@ namespace StragyBuilder.Shared.Input
         public CommandState? GoBack()
             => _previousState;
 
+        public bool TryExecute(string[] parameters, out string? exceptionMessage)
+        {
+            try
+            {
+                var cmd = _commands.FirstOrDefault() ?? throw new NullReferenceException("Command was not recognized");
+                
+                if (!cmd.CanExecute(null))
+                    throw new Exception("Command cannot be executed");
+
+                cmd.Execute(parameters);
+
+                exceptionMessage = null;
+                return true;
+            }
+            catch(NullReferenceException ex)
+            {
+                exceptionMessage = ex.Message;
+                return false;
+            }
+            catch(Exception ex)
+            {
+                exceptionMessage = ex.ToString();
+                return false;
+            }
+        }
+
 
         /// <summary>
         /// Prints all commands from scope
@@ -80,7 +101,7 @@ namespace StragyBuilder.Shared.Input
             foreach (var command in _commands)
             {
                 var sb = new StringBuilder();
-                for (var i = _depth; i < command.Flag.Length; i++) 
+                for (var i = _depth; i < command.Flag.Length; i++)
                 {
                     sb.Append(command.Flag[i]);
                     sb.Append(' ');

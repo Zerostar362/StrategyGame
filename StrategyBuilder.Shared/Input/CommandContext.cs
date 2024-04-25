@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace StragyBuilder.Shared.Input
+﻿namespace StragyBuilder.Shared.Input
 {
     public class CommandContext
     {
@@ -31,13 +25,21 @@ namespace StragyBuilder.Shared.Input
             return _state.Scope;
         }
 
-        public void Switch(string scope)
+        public void SwitchOrExecute(string scope, string[] parameters)
         {
+            if (_state.CommandCount == 1)
+            {
+                if (!_state.TryExecute(parameters, out var msg))
+                {
+                    Console.WriteLine(msg);
+                }
+
+                return;
+            }
+
             if (!_state.TrySwitchToState(scope, out var state))
                 throw new ArgumentException($"No such scope as {scope}");
-
             
-
             _state = state ?? throw new NullReferenceException("State came back as null");
         }
 

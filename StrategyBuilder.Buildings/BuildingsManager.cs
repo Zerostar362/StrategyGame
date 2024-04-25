@@ -1,16 +1,11 @@
 ﻿using StrategyBuilder.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StrategyBuilder.Buildings
 {
     public class BuildingsManager : IBuildingsManager
     {
         private List<IBuilding> Buildings { get; init; }
-        public BuildingsManager(List<IBuilding> buildings) 
+        public BuildingsManager(List<IBuilding> buildings)
         {
             Buildings = buildings;
         }

@@ -1,11 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using StrategyBuilder.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StragyBuilder.Shared.Input
 {
@@ -17,7 +12,7 @@ namespace StragyBuilder.Shared.Input
 
         private CommandContext _commandContext;
 
-        public CommandResolver(IServiceProvider provider) 
+        public CommandResolver(IServiceProvider provider)
         {
             commands = provider.GetServices<ICommand>()?.ToList() ?? throw new NullReferenceException("No commands inserted");
 
@@ -29,7 +24,7 @@ namespace StragyBuilder.Shared.Input
             commands.ForEach(cmd => Console.WriteLine(cmd.Flag));
         }
 
-        public void Resolve(string[] scopes, string[] parameters) 
+        public void Resolve(string[] scopes, string[] parameters)
         {
             try
             {
@@ -47,11 +42,11 @@ namespace StragyBuilder.Shared.Input
                     return;
                 }
 
-                
+
 
                 foreach (var scope in scopes)
                 {
-                    _commandContext.Switch(scope);
+                    _commandContext.SwitchOrExecute(scope, parameters);
                 }
             }
             catch (Exception ex)
@@ -89,9 +84,11 @@ namespace StragyBuilder.Shared.Input
                         {
                             if (!inputSplit[i].Contains("-") && argsStarted)
                                 throw new ArgumentException("You cannot add scope variable after parameter argument");
+
+                            //todo modify to support multiparameter
                             if (inputSplit[i].Contains("-"))
                             {
-                                args.Add(inputSplit[i].Remove(0,1));
+                                args.Add(inputSplit[i]);
                                 //need to skip the gap " "
                                 i++;
                                 args.Add(inputSplit[i]);

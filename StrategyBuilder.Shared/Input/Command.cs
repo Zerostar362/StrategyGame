@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
-
-namespace StragyBuilder.Shared.Input
+﻿namespace StragyBuilder.Shared.Input
 {
     public class Command : StrategyBuilder.Interfaces.ICommand
     {
@@ -15,7 +8,7 @@ namespace StragyBuilder.Shared.Input
         public string[] Flag { get; init; }
         public string Description { get; init; }
 
-        public Command(string flag, string description, Action<object?> execute, Func<object?, bool> canExecute) 
+        public Command(string flag, string description, Action<object?> execute, Func<object?, bool> canExecute)
         {
             Flag = flag.ToLower().Split(" ");
             Description = description;

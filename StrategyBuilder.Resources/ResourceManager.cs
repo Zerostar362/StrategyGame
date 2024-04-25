@@ -1,10 +1,5 @@
 ﻿using StrategyBuilder.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Resources;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace StrategyBuilder.Resources
 {
@@ -97,7 +92,7 @@ namespace StrategyBuilder.Resources
         {
             var sb = new StringBuilder();
             sb.Append(Environment.NewLine);
-            foreach(var resource in StoredResources)
+            foreach (var resource in StoredResources)
             {
                 sb.Append(resource.Name);
                 sb.Append(": ");

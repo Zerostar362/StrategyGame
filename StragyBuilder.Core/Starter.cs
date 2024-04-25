@@ -7,11 +7,6 @@ using StragyBuilder.Core.Debug;
 using StragyBuilder.Shared.Input;
 using StrategyBuilder.Buildings.Implementation;
 using StrategyBuilder.Resources.Implementation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StragyBuilder.Core
 {
@@ -27,7 +22,7 @@ namespace StragyBuilder.Core
         public IConfiguration Configuration { get => builder.Configuration; }
 
 
-        private GameHost(HostApplicationBuilder builder) 
+        private GameHost(HostApplicationBuilder builder)
         {
             this.builder = builder;
         }
