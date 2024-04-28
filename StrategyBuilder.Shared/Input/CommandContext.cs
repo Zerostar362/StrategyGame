@@ -22,7 +22,7 @@
 
         public string PrintState()
         {
-            return _state.Scope;
+            return _state.Scope + ">";
         }
 
         public void SwitchOrExecute(string scope, string[] parameters)
