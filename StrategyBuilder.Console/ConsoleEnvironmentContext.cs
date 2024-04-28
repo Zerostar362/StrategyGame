@@ -46,7 +46,7 @@ namespace StrategyBuilder.Console
             //"{Prefix} {command_name} -f {parameter}"
             //"{Prefix} {command_name} -f {parameter} -r {parameter}"
 
-            
+            throw new NotImplementedException();
         }
     }
 }
