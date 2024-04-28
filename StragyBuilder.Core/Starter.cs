@@ -4,9 +4,11 @@ using Microsoft.Extensions.Diagnostics.Metrics;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using StragyBuilder.Core.Debug;
-using StragyBuilder.Shared.Input;
 using StrategyBuilder.Buildings.Implementation;
+using StrategyBuilder.Console.CommandHelper;
+using StrategyBuilder.Interfaces;
 using StrategyBuilder.Resources.Implementation;
+using StrategyBuilder.Shared.Wrapper;
 
 namespace StragyBuilder.Core
 {
@@ -27,7 +29,7 @@ namespace StragyBuilder.Core
             this.builder = builder;
         }
 
-        public static GameHost CreateHost()
+        public static GameHost CreateHost(string[] args)
         {
             var builder = Host.CreateApplicationBuilder();
 
@@ -38,7 +40,13 @@ namespace StragyBuilder.Core
 
 
             builder.Services.AddHostedService<GameCore>();
-            builder.Services.AddHostedService<CommandResolver>();
+            //builder.Services.AddHostedService<CommandResolver>();
+            builder.Services.AddSingleton<IFacade, Facade>();
+            builder.Services.AddSingleton<CommandResolver>(provider =>
+            {
+                var wrappers = provider.GetServices<CommandWrapper>();
+                return new StrategyBuilder.Console.CommandHelper.CommandResolver(wrappers);
+            });
             builder.Services.AddResources();
             builder.Services.AddBuildings();
             return new GameHost(builder);

@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StrategyBuilder.Buildings",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StrategyBuilder.Resources", "StrategyBuilder.Resources\StrategyBuilder.Resources.csproj", "{AAA50E9B-0A60-4DC0-9308-0804895DA6A1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StrategyBuilder.Shared", "StrategyBuilder.Shared\StrategyBuilder.Shared.csproj", "{274BA0D1-F1B4-4AB1-A7D5-4008884D71C9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StrategyBuilder.Shared", "StrategyBuilder.Shared\StrategyBuilder.Shared.csproj", "{274BA0D1-F1B4-4AB1-A7D5-4008884D71C9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StrategyBuilder.Console", "StrategyBuilder.Console\StrategyBuilder.Console.csproj", "{B324194B-95DD-4796-A43C-00CF8289C3D6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{274BA0D1-F1B4-4AB1-A7D5-4008884D71C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{274BA0D1-F1B4-4AB1-A7D5-4008884D71C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{274BA0D1-F1B4-4AB1-A7D5-4008884D71C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B324194B-95DD-4796-A43C-00CF8289C3D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B324194B-95DD-4796-A43C-00CF8289C3D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B324194B-95DD-4796-A43C-00CF8289C3D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B324194B-95DD-4796-A43C-00CF8289C3D6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

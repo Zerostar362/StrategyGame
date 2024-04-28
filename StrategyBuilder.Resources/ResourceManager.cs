@@ -88,6 +88,21 @@ namespace StrategyBuilder.Resources
             return StoredResources.Find(predicate => predicate.Name == typeof(T).Name)?.Amount ?? throw new NullReferenceException();
         }
 
+        public Dictionary<string,int> GetResourceAmount_All()
+        {
+            var dic = new Dictionary<string,int>();
+            foreach(var storageRes in StoredResources)
+            {
+                dic.Add(storageRes.Name, storageRes.Amount);
+            }
+
+            return dic;
+        }
+
+        /// <summary>
+        /// <see cref="object?"/> is there due to command
+        /// </summary>
+        /// <param name="parameter"></param>
         public void PrintAllResources(object? parameter)
         {
             var sb = new StringBuilder();

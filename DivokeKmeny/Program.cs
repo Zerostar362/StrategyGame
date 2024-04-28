@@ -2,5 +2,5 @@
 
 Console.WriteLine("Hello World");
 
-var gameHost = GameHost.CreateHost();
+var gameHost = GameHost.CreateHost(args);
 gameHost.Run();
