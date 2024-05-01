@@ -67,11 +67,11 @@ namespace StragyBuilder.Core.Debug
     {
         public static IServiceCollection AddDebugCommands(this IServiceCollection services)
         {
-            services.AddSingleton<ICommand, Command>(impl =>
+            /*services.AddSingleton<ICommand, Command>(impl =>
             {
                 var dbg = new DebugCommands(impl);
                 return new Command("debug resources show", "Shows resources that are available in the game", dbg.PrintAllResources, dbg.InstantCanExecute);
-            });
+            });*/
 
             return services;
         }

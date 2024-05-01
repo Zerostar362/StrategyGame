@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StrategyBuilder.Resources",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StrategyBuilder.Shared", "StrategyBuilder.Shared\StrategyBuilder.Shared.csproj", "{274BA0D1-F1B4-4AB1-A7D5-4008884D71C9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StrategyBuilder.Console", "StrategyBuilder.Console\StrategyBuilder.Console.csproj", "{B324194B-95DD-4796-A43C-00CF8289C3D6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StrategyBuilder.ConsoleController", "StrategyBuilder.Console\StrategyBuilder.ConsoleController.csproj", "{B324194B-95DD-4796-A43C-00CF8289C3D6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

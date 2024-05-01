@@ -1,4 +1,5 @@
-﻿using StrategyBuilder.Shared.Wrapper;
+﻿using Microsoft.Extensions.Logging;
+using StrategyBuilder.Shared.Wrapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,12 @@ namespace StrategyBuilder.Shared.Builder
         private string[] environment;
         private string cmdName;
         private Action<object?> command;
-        public CommandWrapperBuilder() { }
+
+        private ILoggerFactory loggerFactory;
+        public CommandWrapperBuilder(ILoggerFactory factory) 
+        {
+            loggerFactory = factory;
+        }
 
         public CommandWrapperBuilder AddOption(CommandParameterOption option)
         {
@@ -24,7 +30,7 @@ namespace StrategyBuilder.Shared.Builder
 
         public CommandWrapperBuilder SetEnvironment(string[]? environment = null)
         {
-            environment = environment ?? new string[0];
+            this.environment = environment ?? new string[0];
             return this;
         }
 
@@ -42,7 +48,8 @@ namespace StrategyBuilder.Shared.Builder
 
         public CommandWrapper Build()
         {
-            return new CommandWrapper(environment, cmdName, options, command);
+            var logger = loggerFactory.CreateLogger<CommandWrapper>();
+            return new CommandWrapper(environment, cmdName, options, command, logger);
         }
     }
 }

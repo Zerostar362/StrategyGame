@@ -6,6 +6,8 @@ using Microsoft.Extensions.Logging;
 using StragyBuilder.Core.Debug;
 using StrategyBuilder.Buildings.Implementation;
 using StrategyBuilder.Console.CommandHelper;
+using StrategyBuilder.Console.System;
+using StrategyBuilder.ConsoleController.Core;
 using StrategyBuilder.Interfaces;
 using StrategyBuilder.Resources.Implementation;
 using StrategyBuilder.Shared.Wrapper;
@@ -33,15 +35,21 @@ namespace StragyBuilder.Core
         {
             var builder = Host.CreateApplicationBuilder();
 
-            builder.Logging.ClearProviders();
+            //builder.Logging.ClearProviders();
 #if DEBUG
             builder.Services.AddDebugCommands();
 #endif
 
 
             builder.Services.AddHostedService<GameCore>();
+            //builder.Services.AddHostedService<ConsolePrinter>();
+            builder.Services.AddConsoleService();
             //builder.Services.AddHostedService<CommandResolver>();
             builder.Services.AddSingleton<IFacade, Facade>();
+
+
+            builder.Services.AddSystemCommands();
+
             builder.Services.AddSingleton<CommandResolver>(provider =>
             {
                 var wrappers = provider.GetServices<CommandWrapper>();

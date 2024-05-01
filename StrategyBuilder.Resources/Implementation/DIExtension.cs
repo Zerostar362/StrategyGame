@@ -1,9 +1,9 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using StragyBuilder.Shared.Input;
 using StrategyBuilder.Interfaces;
 using StrategyBuilder.Shared.Builder;
 using StrategyBuilder.Shared.HelperClasses;
-using StrategyBuilder.Shared.Input;
 using StrategyBuilder.Shared.Wrapper;
 
 namespace StrategyBuilder.Resources.Implementation
@@ -28,14 +28,31 @@ namespace StrategyBuilder.Resources.Implementation
             services.AddTransient<IResource, Gold>();
             services.AddTransient<IResource, People>();
 
+            /*services.AddKeyedTransient<CommandWrapper>(new string[] { "resources"}, (provider, key) =>
+            {
+                var manager = provider.GetService<IResourceManager>();
+                var keyStringArray = key as string[];
+
+                var cmdBuilder = new CommandWrapperBuilder(provider.GetService<ILoggerFactory>());
+                cmdBuilder.AddOption(new CommandParameterOption(new string[] { "-f", "--filter" }));
+                cmdBuilder.SetCommandName("show");
+                cmdBuilder.SetEnvironment(keyStringArray);
+                cmdBuilder.SetCommand(manager.PrintAllResources);
+
+                var wrapper = cmdBuilder.Build();
+
+                //var cmd = new Command("resources show", "Shows amount of all resources", manager.PrintAllResources, CommandHelper.CanExecuteTrue);
+                return wrapper;
+            });*/
+
             services.AddTransient<CommandWrapper>(provider =>
             {
                 var manager = provider.GetService<IResourceManager>();
 
-                var cmdBuilder = new CommandWrapperBuilder();
+                var cmdBuilder = new CommandWrapperBuilder(provider.GetService<ILoggerFactory>());
                 cmdBuilder.AddOption(new CommandParameterOption(new string[] { "-f", "--filter" }));
                 cmdBuilder.SetCommandName("show");
-                cmdBuilder.SetEnvironment(new[] { "resources" });
+                cmdBuilder.SetEnvironment(new[] { "resource" });
                 cmdBuilder.SetCommand(manager.PrintAllResources);
 
                 var wrapper = cmdBuilder.Build();
