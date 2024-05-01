@@ -58,11 +58,5 @@ namespace StrategyBuilder.ConsoleController.Core
 
             return null;
         }
-
-        /*public void AddEnvironment(string[] environment)
-        {
-            var keyedService = serviceProvider.GetKeyedServices<CommandWrapper>(environment) ?? throw new NullReferenceException($"Keyed service {environment} was not found");
-            var ConsoleEnvironment = new ConsoleEnvironment(environment, keyedService);
-        }*/
     }
 }

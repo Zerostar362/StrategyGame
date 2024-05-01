@@ -14,4 +14,8 @@
     <ProjectReference Include="..\StrategyBuilder.Shared\StrategyBuilder.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="PrinterComponents\" />
+  </ItemGroup>
+
 </Project>

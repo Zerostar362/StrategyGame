@@ -9,11 +9,17 @@ namespace StrategyBuilder.ConsoleController.Core
         private CancellationTokenSource _cancellationTokenSource = new();
         private SystemCommand _systemCommand;
         private Task _readLoop;
-        
+        private object _lock = new object();
 
-        public ConsoleReader(SystemCommand systemCommand)
+        private ConsolePrinter Printer { get; set; }
+        private CancellationTokenSource _printerTokenSource;
+
+
+        public ConsoleReader(SystemCommand systemCommand, ConsolePrinter printer)
         {
             _systemCommand = systemCommand;
+            Printer = printer;
+            RegisterPrinter();
         }
 
         public Task StartAsync(CancellationToken cancellationToken)
@@ -37,11 +43,43 @@ namespace StrategyBuilder.ConsoleController.Core
         {
             while (!_cancellationTokenSource.Token.IsCancellationRequested)
             {
-                var reader = System.Console.ReadLine();
+                var reader = "";
+                lock (_lock)
+                {
+                    reader = System.Console.ReadLine();
+                }
+                if (reader == "")
+                    Thread.Sleep(1000);
+
                 var split = reader.Split(" ");
                 var arguments = split.Skip(1).ToArray();
                 _systemCommand.CheckAndTryExecute(split[0], arguments, arguments);
+                Thread.Sleep(200);
             }
+        }
+
+
+        private void RegisterPrinter()
+        {
+            Printer.PrintStarted += (object sender, EventArgs e) =>
+            {
+                _printerTokenSource = new();
+                Task.Run(() =>
+                {
+                    lock (_lock)
+                    {
+                        while (!_printerTokenSource.IsCancellationRequested)
+                        {
+                            Thread.Sleep(100);
+                        }
+                    }
+                });
+            };
+
+            Printer.PrintFinished += (object sender, EventArgs e) =>
+            {
+                _printerTokenSource.Cancel();
+            };
         }
     }
 
@@ -51,6 +89,7 @@ namespace StrategyBuilder.ConsoleController.Core
         {
             services.AddHostedService<ConsoleReader>();
             services.AddSingleton<ConsoleEnvironmentContext>();
+            services.AddSingleton<ConsolePrinter>();
             //services.AddTransient<ConsoleEnvironment>();
 
             return services;

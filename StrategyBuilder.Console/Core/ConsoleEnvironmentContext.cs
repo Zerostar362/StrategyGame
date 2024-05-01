@@ -17,13 +17,13 @@ namespace StrategyBuilder.ConsoleController.Core
     {
         public ConsoleEnvironment CurrentEnvironment { get; private set; }
         private ConsoleEnvironmentList _environmentList;
-        //private CommandResolver Resolver { get; set; }
+        private ConsolePrinter _printer;
 
-        public ConsoleEnvironmentContext(/*CommandResolver resolver*/ConsoleEnvironmentList list) 
+        public ConsoleEnvironmentContext(ConsoleEnvironmentList list, ConsolePrinter printer)
         {
             _environmentList = list;
-          //Resolver = resolver;
-          CurrentEnvironment = new ConsoleEnvironment(new string[0], new List<CommandWrapper>());
+            _printer = printer;
+            CurrentEnvironment = new ConsoleEnvironment(new string[0], new List<CommandWrapper>());
         }
 
         public void SwitchEnvironment(object? contextName)
@@ -34,6 +34,7 @@ namespace StrategyBuilder.ConsoleController.Core
             var newEnvironment = _environmentList.Find(envArr.ToArray());
 
             CurrentEnvironment = newEnvironment;
+            Print();
         }
 
         public bool CanSwitchEnvironment(object? contextName)
@@ -43,7 +44,7 @@ namespace StrategyBuilder.ConsoleController.Core
 
             var newEnvironment = _environmentList.Find(envList.ToArray());
 
-            if(newEnvironment is null)
+            if (newEnvironment is null)
                 return false;
 
             return true;
@@ -61,6 +62,8 @@ namespace StrategyBuilder.ConsoleController.Core
             {
                 System.Console.WriteLine(commandName);
             }
+
+            Print();
         }
 
         public bool CanDirEnvironment(object? parameter)
@@ -68,21 +71,34 @@ namespace StrategyBuilder.ConsoleController.Core
 
         public void DirEnvironment(object? parameter)
         {
-            _environmentList.ForEach(x =>
+            Print(printer =>
             {
-                x.CurrentEnvironment.ToList().ForEach(y => System.Console.WriteLine(y));
+                _environmentList.ForEach(x =>
+                {
+                    printer.PrintList(x.CurrentEnvironment.ToList());
+                });
             });
         }
 
 
-        private bool TryExecuteCommand(string input)
-        {
-            //Execute is anything send with "{Prefix} {some_text}"
-            //complete execution command with parameters:
-            //"{Prefix} {command_name} -f {parameter}"
-            //"{Prefix} {command_name} -f {parameter} -r {parameter}"
 
-            throw new NotImplementedException();
+
+
+
+
+
+        private void PrintPath()
+        {
+            _printer.PrintPath(CurrentEnvironment);
+        }
+
+        private void Print(Action<ConsolePrinter> action = null)
+        {
+            _printer.RequestPrint();
+            action?.Invoke(_printer);
+            _printer.PrintEmptyLine();
+            PrintPath();
+            _printer.PrintEnded();
         }
     }
 }
