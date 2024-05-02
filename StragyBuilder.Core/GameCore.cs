@@ -26,7 +26,7 @@ namespace StragyBuilder.Core
                 while (!CancellationTokenSource.Token.IsCancellationRequested)
                 {
                     Update();
-                    Thread.Sleep(20000);
+                    Thread.Sleep(500);
                 }
             });
 

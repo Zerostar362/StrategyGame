@@ -26,6 +26,14 @@ namespace StrategyBuilder.ConsoleController.Core
             _isRequested = true;
         }
 
+        public void PrintLine(string text)
+        {
+            if (!_isRequested)
+                throw new InvalidOperationException("Not under request");
+
+            System.Console.WriteLine(text);
+        }
+
         public void PrintPath(ConsoleEnvironment environment)
         {
             if (!_isRequested)

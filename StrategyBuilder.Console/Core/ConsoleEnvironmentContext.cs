@@ -80,6 +80,29 @@ namespace StrategyBuilder.ConsoleController.Core
             });
         }
 
+        public bool CanExecuteGameCommand(object? parameter)
+        {
+            var strParams = parameter as string[];
+            
+            if(strParams is null)
+                return false;
+
+            var name = strParams[0];
+            var param = strParams.Skip(1).ToArray();
+
+            return CurrentEnvironment.CanExecuteCommand(name,param);
+        }
+
+        public void ExecuteGameCommand(object? parameter)
+        {
+            var strParams = parameter as string[];
+
+            var name = strParams[0];
+            var param = strParams.Skip(1).ToArray();
+
+            CurrentEnvironment.ExecuteCommand(name, param);
+        }
+
 
 
 

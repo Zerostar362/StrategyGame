@@ -36,6 +36,20 @@ namespace StrategyBuilder.ConsoleController.Core
             }
         }
 
+        public bool CanExecuteCommand(string cmdName, object? parameter)
+        {
+            var cmd = AvailableCommands.Where(x => x.CommandName == cmdName).FirstOrDefault();
+
+            return cmd?.Command.CanExecute(parameter) ?? false;
+        }
+
+        public void ExecuteCommand(string cmdName, object? parameters)
+        {
+            var cmd = AvailableCommands.Where(x => x.CommandName == cmdName).First();
+
+            cmd.Command.Execute(parameters);
+        }
+
         private void GetCommands(CommandResolver resolver) =>
             AvailableCommands = resolver.GetListOfAvailableCommands(CurrentEnvironment);
     }

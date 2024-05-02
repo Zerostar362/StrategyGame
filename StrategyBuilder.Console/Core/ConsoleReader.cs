@@ -11,14 +11,22 @@ namespace StrategyBuilder.ConsoleController.Core
         private Task _readLoop;
         private object _lock = new object();
 
-        private ConsolePrinter Printer { get; set; }
+        private EventHandler _printStarted;
+        private EventHandler _printStopped;
         private CancellationTokenSource _printerTokenSource;
 
 
-        public ConsoleReader(SystemCommand systemCommand, ConsolePrinter printer)
+        private ConsolePrinter Printer { get; set; }
+        private ConsoleEnvironmentContext _environmentContext;
+
+
+        public ConsoleReader(SystemCommand systemCommand, ConsolePrinter printer, ConsoleEnvironmentContext context, IHostApplicationLifetime lifetime)
         {
             _systemCommand = systemCommand;
             Printer = printer;
+            _environmentContext = context;
+            lifetime.ApplicationStopping.Register(() => { System.Console.WriteLine("ConsoleReader stopping"); });
+            lifetime.ApplicationStopped.Register(() => { System.Console.WriteLine("ConsoleReader stopped"); });
             RegisterPrinter();
         }
 
@@ -28,15 +36,21 @@ namespace StrategyBuilder.ConsoleController.Core
             {
                 MainLoop();
             });
+
+            Printer.PrintStarted += _printStarted;
+            Printer.PrintFinished += _printStopped;
+
             return Task.CompletedTask;
-            //throw new NotImplementedException();
         }
 
         public Task StopAsync(CancellationToken cancellationToken)
         {
             _cancellationTokenSource.Cancel();
+
+            Printer.PrintStarted -= _printStarted;
+            Printer.PrintFinished -= _printStopped;
+
             return Task.CompletedTask;
-            //throw new NotImplementedException();
         }
 
         public void MainLoop()
@@ -49,10 +63,16 @@ namespace StrategyBuilder.ConsoleController.Core
                     reader = System.Console.ReadLine();
                 }
                 if (reader == "")
+                {
                     Thread.Sleep(1000);
+                    continue;
+                }
 
-                var split = reader.Split(" ");
-                var arguments = split.Skip(1).ToArray();
+                if (reader is null)
+                    break;
+
+                var split = reader?.Split(" ");
+                var arguments = split?.Skip(1).ToArray();
                 _systemCommand.CheckAndTryExecute(split[0], arguments, arguments);
                 Thread.Sleep(200);
             }
@@ -61,7 +81,7 @@ namespace StrategyBuilder.ConsoleController.Core
 
         private void RegisterPrinter()
         {
-            Printer.PrintStarted += (object sender, EventArgs e) =>
+            _printStarted = (object? sender, EventArgs e) =>
             {
                 _printerTokenSource = new();
                 Task.Run(() =>
@@ -76,7 +96,7 @@ namespace StrategyBuilder.ConsoleController.Core
                 });
             };
 
-            Printer.PrintFinished += (object sender, EventArgs e) =>
+            _printStopped += (object? sender, EventArgs e) =>
             {
                 _printerTokenSource.Cancel();
             };
