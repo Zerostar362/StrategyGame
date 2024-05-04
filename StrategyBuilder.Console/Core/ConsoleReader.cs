@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using StrategyBuilder.Console.System;
+using StrategyBuilder.Interfaces;
 
 namespace StrategyBuilder.ConsoleController.Core
 {
@@ -20,10 +21,10 @@ namespace StrategyBuilder.ConsoleController.Core
         private ConsoleEnvironmentContext _environmentContext;
 
 
-        public ConsoleReader(SystemCommand systemCommand, ConsolePrinter printer, ConsoleEnvironmentContext context, IHostApplicationLifetime lifetime)
+        public ConsoleReader(SystemCommand systemCommand, IConsolePrinter printer, ConsoleEnvironmentContext context, IHostApplicationLifetime lifetime)
         {
             _systemCommand = systemCommand;
-            Printer = printer;
+            Printer = (ConsolePrinter)printer; //todo this fucking shit has grown everywhere, it needs to be fixed now
             _environmentContext = context;
             lifetime.ApplicationStopping.Register(() => { System.Console.WriteLine("ConsoleReader stopping"); });
             lifetime.ApplicationStopped.Register(() => { System.Console.WriteLine("ConsoleReader stopped"); });
@@ -109,7 +110,7 @@ namespace StrategyBuilder.ConsoleController.Core
         {
             services.AddHostedService<ConsoleReader>();
             services.AddSingleton<ConsoleEnvironmentContext>();
-            services.AddSingleton<ConsolePrinter>();
+            services.AddSingleton<IConsolePrinter,ConsolePrinter>();
             //services.AddTransient<ConsoleEnvironment>();
 
             return services;

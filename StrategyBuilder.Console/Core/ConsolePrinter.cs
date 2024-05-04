@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace StrategyBuilder.ConsoleController.Core
 {
-    public class ConsolePrinter
+    public class ConsolePrinter : IConsolePrinter
     {
         public event EventHandler PrintStarted;
         public event EventHandler PrintFinished;

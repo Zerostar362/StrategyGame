@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\StrategyBuilder.DTO\StrategyBuilder.DTO.csproj" />
+  </ItemGroup>
+
 </Project>

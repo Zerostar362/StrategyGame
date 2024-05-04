@@ -160,7 +160,7 @@ namespace StrategyBuilder.Console.System
             {
                 var dictionary_interface = provider.GetService<IDictionary<string, ICommand>>();
                 var dic = dictionary_interface as Dictionary<string, ICommand> ?? throw new Exception();
-                var printer = provider.GetService<ConsolePrinter>();
+                var printer = provider.GetService<StrategyBuilder.Interfaces.IConsolePrinter>();
 
                 var command = new Command((object? parameter) =>
                 {

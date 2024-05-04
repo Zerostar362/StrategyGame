@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StrategyBuilder.DTO.LocalResponse;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,7 @@ namespace StrategyBuilder.Interfaces
 {
     public interface IFacade
     {
-        int GetResourceAmount<T>() where T : IResource;
-        Dictionary<string, int>? GetResourceAmount_All();
+        Response GetResourceAmount<T>() where T : IResource;
+        Response GetResourceAmount_All();
     }
 }

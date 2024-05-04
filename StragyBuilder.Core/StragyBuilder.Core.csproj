@@ -13,6 +13,7 @@
   <ItemGroup>
     <ProjectReference Include="..\StrategyBuilder.Buildings\StrategyBuilder.Buildings.csproj" />
     <ProjectReference Include="..\StrategyBuilder.Console\StrategyBuilder.ConsoleController.csproj" />
+    <ProjectReference Include="..\StrategyBuilder.DTO\StrategyBuilder.DTO.csproj" />
     <ProjectReference Include="..\StrategyBuilder.Interfaces\StrategyBuilder.Interfaces.csproj" />
     <ProjectReference Include="..\StrategyBuilder.Resources\StrategyBuilder.Resources.csproj" />
     <ProjectReference Include="..\StrategyBuilder.Shared\StrategyBuilder.Shared.csproj" />

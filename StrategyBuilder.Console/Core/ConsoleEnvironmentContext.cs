@@ -1,4 +1,5 @@
 ﻿using StrategyBuilder.Console.CommandHelper;
+using StrategyBuilder.Interfaces;
 using StrategyBuilder.Shared.Wrapper;
 using System;
 using System.Collections.Generic;
@@ -19,10 +20,10 @@ namespace StrategyBuilder.ConsoleController.Core
         private ConsoleEnvironmentList _environmentList;
         private ConsolePrinter _printer;
 
-        public ConsoleEnvironmentContext(ConsoleEnvironmentList list, ConsolePrinter printer)
+        public ConsoleEnvironmentContext(ConsoleEnvironmentList list, IConsolePrinter printer)
         {
             _environmentList = list;
-            _printer = printer;
+            _printer = (ConsolePrinter)printer; //this is shit and needs to be fixed
             CurrentEnvironment = new ConsoleEnvironment(new string[0], new List<CommandWrapper>());
         }
 
