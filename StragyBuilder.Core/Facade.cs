@@ -43,10 +43,11 @@ namespace StragyBuilder.Core
         {
             using (Logger.BeginScope("Resource manager scope"))
             {
+                throw new NotImplementedException();
                 try
                 {
                     var manager = ServiceProvider.GetService<IResourceManager>() ?? throw new NullReferenceException();
-                    return manager.GetResourceAmount_All();
+                    //return manager.GetResourceAmount_All();
 
                 }
                 catch (NullReferenceException ex)

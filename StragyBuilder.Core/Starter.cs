@@ -35,7 +35,7 @@ namespace StragyBuilder.Core
         {
             var builder = Host.CreateApplicationBuilder();
 
-            //builder.Logging.ClearProviders();
+            builder.Logging.ClearProviders();
 #if DEBUG
             builder.Services.AddDebugCommands();
 #endif

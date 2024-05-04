@@ -99,7 +99,7 @@ namespace StrategyBuilder.Resources
             return dic;
         }
 
-        /// <summary>
+        /*/// <summary>
         /// <see cref="object?"/> is there due to command
         /// </summary>
         /// <param name="parameter"></param>
@@ -115,6 +115,6 @@ namespace StrategyBuilder.Resources
             }
 
             Console.WriteLine(sb.ToString());
-        }
+        }*/
     }
 }
