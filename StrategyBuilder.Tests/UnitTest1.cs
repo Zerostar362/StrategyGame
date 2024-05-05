@@ -10,7 +10,7 @@ namespace StrategyBuilder.Tests
         }
 
         [Test]
-        public void Test1()
+        public void Startup()
         {
             using(var writer = new StringWriter())
             {
@@ -21,12 +21,30 @@ namespace StrategyBuilder.Tests
                 var thread = new Thread(parametrizedThreadStart);
 
                 thread.Start();
-                Thread.Sleep(10000);
+                Thread.Sleep(5000);
                 thread.IsBackground = true;
 
                 string consoleOutput = writer.ToString();
-                Assert.Pass(consoleOutput);
+                //Assert.AreEqual("Application started", consoleOutput);
+                Assert.That(consoleOutput,Is.EqualTo($"Application started{Environment.NewLine}"));
+                //Assert.Pass(consoleOutput);
             }
+        }
+
+        [Test]
+        public void HelpCommandTest()
+        {
+            var host = GameHost.CreateHost(new string[] { });
+
+            var parametrizedThreadStart = new ParameterizedThreadStart((object? obj) => host.Run());
+            var thread = new Thread(parametrizedThreadStart);
+
+            thread.Start();
+            Thread.Sleep(5000);
+            thread.IsBackground = true;
+
+            var reader = TextReader
+            System.Console.In.
         }
     }
 }

@@ -35,7 +35,7 @@ namespace StragyBuilder.Core
         {
             var builder = Host.CreateApplicationBuilder();
 
-            //builder.Logging.ClearProviders();
+            builder.Logging.ClearProviders();
 #if DEBUG
             builder.Services.AddDebugCommands();
 #endif
@@ -63,6 +63,8 @@ namespace StragyBuilder.Core
         public void Run()
         {
             var app = builder.Build();
+            var lifetime = app.Services.GetService<IHostApplicationLifetime>();
+            lifetime.ApplicationStarted.Register(() => Console.WriteLine("Application started"));
             app.Run();
         }
     }
