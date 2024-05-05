@@ -17,7 +17,9 @@ namespace StragyBuilder.Core
     public class GameHost
     {
         private HostApplicationBuilder builder;
-
+#if DEBUG
+        public IHost Host { get; set; }
+#endif
 
         public IServiceCollection Services { get => builder.Services; }
         public ILoggingBuilder Logging { get => builder.Logging; }
@@ -33,7 +35,7 @@ namespace StragyBuilder.Core
 
         public static GameHost CreateHost(string[] args)
         {
-            var builder = Host.CreateApplicationBuilder();
+            var builder = Microsoft.Extensions.Hosting.Host.CreateApplicationBuilder();
 
             builder.Logging.ClearProviders();
 #if DEBUG
@@ -63,6 +65,9 @@ namespace StragyBuilder.Core
         public void Run()
         {
             var app = builder.Build();
+#if DEBUG
+            Host = app;
+#endif
             var lifetime = app.Services.GetService<IHostApplicationLifetime>();
             lifetime.ApplicationStarted.Register(() => Console.WriteLine("Application started"));
             app.Run();
