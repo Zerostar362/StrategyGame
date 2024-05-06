@@ -15,6 +15,20 @@ namespace StrategyBuilder.ConsoleController.Core
 
         private bool _isRequested;
         
+        //Console printer must be more autonomous
+        //That means that it should do most of the render thing by itself
+
+        //other class must only ask him to print certain information, but they should not know how/when or if it will be printed
+        
+        //ConsolePrinter will have an interface API to create more complex printables for command to create
+
+        //1. It should print the environment by itself
+        //that means that ConsolePrinter needs to be injected with ConsoleEnvironmentContext
+
+        //2. No internal print functioning will be presented out of the class. That means request and end print for blocking reading.
+        
+        //3. Only one method should be called from outside. TM Print(Action<InterfacePrintAPI> action).
+
         public ConsolePrinter() 
         {
             
@@ -32,6 +46,10 @@ namespace StrategyBuilder.ConsoleController.Core
                 throw new InvalidOperationException("Not under request");
 
             System.Console.WriteLine(text);
+        }
+        public void ClearConsole()
+        {
+            System.Console.Clear();
         }
 
         public void PrintPath(ConsoleEnvironment environment)
@@ -93,6 +111,7 @@ namespace StrategyBuilder.ConsoleController.Core
         public void PrintEnded()
         {
             PrintFinished.Invoke(this, EventArgs.Empty);
+            //System.Console.Clear();
             _isRequested= false;
         }
     }

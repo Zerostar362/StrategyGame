@@ -48,7 +48,7 @@ namespace StrategyBuilder.Console.System
                 var ep = executeParam as string[];
 
                 cep = cep.Prepend(name).ToArray();
-                cep = ep.Prepend(name).ToArray();
+                ep = ep.Prepend(name).ToArray();
 
                 var command = SystemCommands["./*"];
 

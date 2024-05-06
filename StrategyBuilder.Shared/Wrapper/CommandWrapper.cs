@@ -38,6 +38,8 @@ namespace StrategyBuilder.Shared.Wrapper
 
         private bool CanExecute(object? obj)
         {
+            //temporary and really desperate solution
+            return true;
             try
             {
                 var environment = (string[])obj ?? throw new NullReferenceException();

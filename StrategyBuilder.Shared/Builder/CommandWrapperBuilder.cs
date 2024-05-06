@@ -42,7 +42,7 @@ namespace StrategyBuilder.Shared.Builder
 
         public CommandWrapperBuilder SetCommand(Action<object?> executeAction)
         {
-            this.command = command;
+            this.command = executeAction;
             return this;
         }
 

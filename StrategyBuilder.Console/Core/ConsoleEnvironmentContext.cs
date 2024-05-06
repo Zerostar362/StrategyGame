@@ -8,6 +8,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using static System.Collections.Specialized.BitVector32;
 
 namespace StrategyBuilder.ConsoleController.Core
 {
@@ -35,7 +36,7 @@ namespace StrategyBuilder.ConsoleController.Core
             var newEnvironment = _environmentList.Find(envArr.ToArray());
 
             CurrentEnvironment = newEnvironment;
-            Print();
+            PrintWithClear();
         }
 
         public bool CanSwitchEnvironment(object? contextName)
@@ -59,11 +60,15 @@ namespace StrategyBuilder.ConsoleController.Core
         public void DirCommands(object? paramter)
         {
             var list = CurrentEnvironment.ShowListOfCommands();
+            _printer.RequestPrint();
+
             foreach (var commandName in list)
             {
-                System.Console.WriteLine(commandName);
+                _printer.PrintLine(commandName);
+                //System.Console.WriteLine(commandName);
             }
 
+            _printer.PrintEnded();
             Print();
         }
 
@@ -96,12 +101,15 @@ namespace StrategyBuilder.ConsoleController.Core
 
         public void ExecuteGameCommand(object? parameter)
         {
+            //after returning true in CanExecute in CommandWrapper, it will crash here, so my desparate state is going even deeper :(
             var strParams = parameter as string[];
 
             var name = strParams[0];
             var param = strParams.Skip(1).ToArray();
 
             CurrentEnvironment.ExecuteCommand(name, param);
+
+            Print();
         }
 
 
@@ -118,6 +126,16 @@ namespace StrategyBuilder.ConsoleController.Core
 
         private void Print(Action<ConsolePrinter> action = null)
         {
+            _printer.RequestPrint();
+            action?.Invoke(_printer);
+            _printer.PrintEmptyLine();
+            PrintPath();
+            _printer.PrintEnded();
+        }
+
+        private void PrintWithClear(Action<ConsolePrinter> action = null)
+        {
+            _printer.ClearConsole();
             _printer.RequestPrint();
             action?.Invoke(_printer);
             _printer.PrintEmptyLine();
