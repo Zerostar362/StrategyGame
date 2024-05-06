@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace StrategyBuilder.ConsoleController.Core
 {
-    public class ConsolePrinter : IConsolePrinter
+    public class ConsolePrinter : IConsolePrinter, IConsolePrinterAPI
     {
         public event EventHandler PrintStarted;
         public event EventHandler PrintFinished;
@@ -28,6 +28,8 @@ namespace StrategyBuilder.ConsoleController.Core
         //2. No internal print functioning will be presented out of the class. That means request and end print for blocking reading.
         
         //3. Only one method should be called from outside. TM Print(Action<InterfacePrintAPI> action).
+
+        //Optinal 4. Print only blueprints wich will be filled with data
 
         public ConsolePrinter() 
         {
